@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="../static/css/style.css">
+		<script type="text/javascript" src="../static/js/jquery.min.js"></script>
+		<script type="text/javascript" src="../static/js/main.js"></script>
+		<title>NightDL ~ Manage Files</title>
+	</head>
+
+	<body>
+		<div class="center-container">
+			<h1><span class="green">NightDL</span> Manager</h1>
+			<p>Downloading at <strong><%=time%></strong></p>
+			<div class="filelist">
+				<h3>Queued Files:</h3>
+
+				<% if (files.length == 0) { %>
+					<p>No files queued</p>
+				<%}%>
+
+				<% for (var i=0; i<files.length; i++) {%>
+					<div class="file" id="<%=files[i].id%>">
+						<div class="name"><%=files[i].filename%></div>
+						<div class="url"><%=files[i].url%></div>
+						<a class="remove" href="/remove?id=<%=files[i].id%>&redirect=1">x</a>
+					</div>
+				<% } %>
+			</div>
+		
+			<div class="fileadd">
+				<h3>Add a file for download</h3>
+				<form action="/add" method="get" id="addfile">
+					<input type="hidden" name="redirect" value="1">
+
+					<div class="labels">
+						<label for="url">URL:</label>
+						<label for="file">File name (optional):</label>
+					</div>
+
+					<div class="inputs">
+						<input name="url" id="url">
+						<input name="file" id="file">
+					</div>
+
+					<button type="submit">Add</button>
+				</form>
+			</div>
+		</div>
+	</body>
+</html>
