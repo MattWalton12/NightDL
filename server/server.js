@@ -19,6 +19,7 @@ app.use(express.bodyParser());
 
 var downloadList = [];
 var dlIndex = 0;
+var dlID = 0;
 
 function init() {
 	var folderList = fs.readdirSync(__dirname + "/files");
@@ -36,8 +37,11 @@ function addDownload(url, filename) {
 	var downloadObject = {
 		url: url,
 		ssl: (parsed.protocol == "https:"),
-		filename : filename
+		filename : filename,
+		id : dlID
 	}
+
+	dlID++;
 
 	downloadList.push(downloadObject);
 }
@@ -113,6 +117,25 @@ app.get("/add", function(req, res) {
 	
 	} else {
 		res.send(400);
+	}
+});
+
+app.get("/remove", function(req, res) {
+	var id = parseInt(req.param("id"));
+	var done = false;
+
+	if (typeof id == "number") {
+		for (var i=0; i<downloadList.length; i++) {
+			if (downloadList[i].id === id) {
+				downloadList.splice(i, 1);
+				done = true;
+				res.send(200);
+			}
+		}
+	}
+
+	if (!done) {
+		res.send(404);
 	}
 });
 
