@@ -1,4 +1,4 @@
 NightDL
 =======
 
-A simple node application for schedualing downloads, for the bandwidth impaired
+A simple node application for scheduling downloads, for the bandwidth impaired
