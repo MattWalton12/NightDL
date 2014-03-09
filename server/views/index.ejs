@@ -21,14 +21,14 @@
 					<div class="file" id="<%=files[i].id%>">
 						<div class="name"><%=files[i].filename%></div>
 						<div class="url"><%=files[i].url%></div>
-						<a class="remove" href="remove?id=<%=files[i].id%>&redirect=1">x</a>
+						<a class="remove" href="<%=baseurl%>/remove?id=<%=files[i].id%>&redirect=1">x</a>
 					</div>
 				<% } %>
 			</div>
 		
 			<div class="fileadd">
 				<h3>Add a file for download</h3>
-				<form action="add" method="get" id="addfile">
+				<form action="<%=baseurl%>/add" method="get" id="addfile">
 					<input type="hidden" name="redirect" value="1">
 
 					<div class="labels">
