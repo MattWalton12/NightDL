@@ -91,7 +91,16 @@ h3 {
 
 .fileadd .inputs input {
   display:block;
-  margin-bottom:5px;
+  margin-bottom:7px;
+  width:250px;
+  height:16px;
+  background-color:#222;
+  border:1px solid #ECECEC;
+  color:#ECECEC;
+}
+
+.fileadd .inputs input:hover {
+  border-color:#19c41c;
 }
 
 .fileadd button {
