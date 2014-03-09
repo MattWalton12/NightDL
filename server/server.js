@@ -17,9 +17,15 @@ var http = require("http"),
 var app = express();
 app.configure(function() {
 	app.use(express.urlencoded());
-	app.use("/static", express.static(__dirname + "/static"))
+	app.use(config.baseurl + "/static", express.static(__dirname + "/static"))
 	app.set("view engine", "ejs");
 });
+
+var baseurl = config.baseurl;
+
+if (config.baseurl == "") {
+	baseurl = "/";
+}
 
 var downloadList = [];
 var dlIndex = 0;
@@ -52,7 +58,6 @@ function addDownload(url, filename) {
 
 
 function downloadFile(url, ssl, file, callback) {
-	console.log(ssl);
 	var getFunc = (ssl ? https.get : http.get);
 
 	getFunc(url, function(res) {
@@ -111,11 +116,11 @@ function checkTime() {
 
 setInterval(checkTime, 5000);
 
-app.get("/", function(req, res) {
-	res.render("index", {files: downloadList, time: config.time})
+app.get(baseurl, function(req, res) {
+	res.render("index", {files: downloadList, time: config.time, baseurl: config.baseurl})
 });
 	
-app.get("/add", function(req, res) {
+app.get(config.baseurl + "/add", function(req, res) {
 	var url = req.param("url");
 	var file = req.param("file");
 	var redirect = req.param("redirect");
@@ -124,7 +129,7 @@ app.get("/add", function(req, res) {
 		addDownload(url, file);
 		
 		if (redirect) {
-			res.redirect("/");
+			res.redirect(config.baseurl);
 
 		} else {
 			res.send(200);
@@ -135,7 +140,7 @@ app.get("/add", function(req, res) {
 	}
 });
 
-app.get("/remove", function(req, res) {
+app.get(config.baseurl + "/remove", function(req, res) {
 	var id = parseInt(req.param("id"));
 	var redirect = req.param("redirect");
 
@@ -148,7 +153,7 @@ app.get("/remove", function(req, res) {
 				done = true;
 				
 				if (redirect) {
-					res.redirect("/");
+					res.redirect(config.baseurl);
 
 				} else {
 					res.send(200);
@@ -162,11 +167,11 @@ app.get("/remove", function(req, res) {
 	}
 });
 
-app.get("/files", function(req, res) {
+app.get(config.baseurl + "/files", function(req, res) {
 	res.end(dlIndex.toString());
 });
 
-app.get("/get/:id", function(req, res) {
+app.get(config.baseurl + "/get/:id", function(req, res) {
 	if (fs.existsSync(__dirname + "/files/" + req.params.id)) {
 		var file = fs.readdirSync(__dirname + "/files/" + req.params.id)[0];
 		res.setHeader("Content-Disposition", "attachment; filename=" + file);
@@ -180,7 +185,7 @@ app.get("/get/:id", function(req, res) {
 	}
 });
 
-app.get("/clear", function(req, res) {
+app.get(config.baseurl + "/clear", function(req, res) {
 	for (i=0; i<dlIndex; i++) {
 		fs.unlinkSync(__dirname + "/files/" + i + "/" + fs.readdirSync(__dirname + "/files/" + i)[0]);
 		fs.rmdirSync(__dirname + "/files/" + i);
@@ -191,7 +196,7 @@ app.get("/clear", function(req, res) {
 	res.send(200);
 });
 
-app.get("/list", function(req, res) {
+app.get(config.baseurl + "/list", function(req, res) {
 	res.end(JSON.stringify(downloadList));
 });
 
