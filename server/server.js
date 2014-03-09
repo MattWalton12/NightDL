@@ -204,4 +204,4 @@ app.get(config.baseurl + "/list", function(req, res) {
 });
 
 init();
-app.listen(1338);
+app.listen(config.port);
