@@ -16,7 +16,7 @@ var http = require("http"),
 
 var app = express();
 app.configure(function() {
-	app.use(express.bodyParser());
+	app.use(express.urlencoded());
 	app.use("/static", express.static(__dirname + "/static"))
 	app.set("view engine", "ejs");
 });
