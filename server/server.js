@@ -145,5 +145,9 @@ app.get("/clear", function(req, res) {
 	res.send(200);
 });
 
+app.get("/list", function(req, res) {
+	res.end(JSON.stringify(downloadList));
+});
+
 init();
 app.listen(1338);
