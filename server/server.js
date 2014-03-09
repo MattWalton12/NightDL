@@ -32,6 +32,9 @@ var dlIndex = 0;
 var dlID = 0;
 
 function init() {
+	if (!fs.existsSync(__dirname + "/files"))
+		fs.mkdirSync(__dirname + "/files");
+
 	var folderList = fs.readdirSync(__dirname + "/files");
 	if (folderList.length > 0) {
 		dlIndex = parseInt(Math.max.apply(Math, folderList)) + 1;
