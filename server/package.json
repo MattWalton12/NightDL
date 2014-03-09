@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/MattWalton12/NightDL",
   "dependencies": {
-    "ejs": "^0.8.5"
+    "ejs": "^0.8.5",
+    "express": "^3.4.x"
   }
 }
