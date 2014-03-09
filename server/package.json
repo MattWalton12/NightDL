@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/MattWalton12/NightDL/issues"
   },
-  "homepage": "https://github.com/MattWalton12/NightDL"
+  "homepage": "https://github.com/MattWalton12/NightDL",
+  "dependencies": {
+    "ejs": "^0.8.5"
+  }
 }

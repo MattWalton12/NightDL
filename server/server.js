@@ -15,7 +15,11 @@ var http = require("http"),
 	config = require("./config.json");
 
 var app = express();
-app.use(express.bodyParser());
+app.configure(function() {
+	app.use(express.bodyParser());
+	app.use("/static", express.static(__dirname + "/static"))
+	app.set("view engine", "ejs");
+});
 
 var downloadList = [];
 var dlIndex = 0;
@@ -107,13 +111,24 @@ function checkTime() {
 
 setInterval(checkTime, 5000);
 
+app.get("/", function(req, res) {
+	res.render("index", {files: downloadList, time: config.time})
+});
+	
 app.get("/add", function(req, res) {
 	var url = req.param("url");
 	var file = req.param("file");
+	var redirect = req.param("redirect");
 
 	if (url) {
 		addDownload(url, file);
-		res.send(200);
+		
+		if (redirect) {
+			res.redirect("/");
+
+		} else {
+			res.send(200);
+		}
 	
 	} else {
 		res.send(400);
@@ -122,6 +137,8 @@ app.get("/add", function(req, res) {
 
 app.get("/remove", function(req, res) {
 	var id = parseInt(req.param("id"));
+	var redirect = req.param("redirect");
+
 	var done = false;
 
 	if (typeof id == "number") {
@@ -129,7 +146,13 @@ app.get("/remove", function(req, res) {
 			if (downloadList[i].id === id) {
 				downloadList.splice(i, 1);
 				done = true;
-				res.send(200);
+				
+				if (redirect) {
+					res.redirect("/");
+
+				} else {
+					res.send(200);
+				}
 			}
 		}
 	}
