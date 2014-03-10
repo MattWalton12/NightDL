@@ -66,7 +66,7 @@ function downloadFile(url, ssl, file, callback) {
 	getFunc(url, function(res) {
 		if (res.statusCode === 301) {
 			var parsed = urlm.parse(res.headers.location);
-			downloadFile(res.headers.location, (parsed.protocol == "https:"), file)
+			downloadFile(res.headers.location, (parsed.protocol == "https:"), file, downloadCallback)
 		
 		} else if (res.statusCode == 200) {
 
@@ -87,19 +87,21 @@ function downloadFile(url, ssl, file, callback) {
 	});
 }
 
+function downloadCallback() {
+	downloadList.splice(0, 1);
+
+	if (downloadList.length == 0) {
+		console.log("Downloads complete")
+	
+	} else {
+		downloadFiles()
+	}
+}
+
 function downloadFiles() {
 	if (downloadList.length > 0) {
 		var dlObject = downloadList[0];
-		downloadFile(dlObject.url, dlObject.ssl, dlObject.filename, function() {
-			downloadList.splice(0, 1);
-
-			if (downloadList.length == 0) {
-				console.log("Downloads complete")
-			
-			} else {
-				downloadFiles()
-			}
-		});
+		downloadFile(dlObject.url, dlObject.ssl, dlObject.filename, downloadCallback);
 	}
 }
 
