@@ -66,7 +66,7 @@ function downloadFile(url, ssl, file, callback) {
 	getFunc(url, function(res) {
 		if (res.statusCode === 301) {
 			var parsed = urlm.parse(res.headers.location);
-			downloadFile(res.headers.location, (parsed.protocol == "https:"), file, downloadCallback)
+			downloadFile(res.headers.location, (parsed.protocol == "https:"), file, callback)
 		
 		} else if (res.statusCode == 200) {
 
