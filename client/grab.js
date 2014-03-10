@@ -4,6 +4,8 @@ var http = require("http"),
 
 http.get(config.url + "/files", function(res) {
 	res.on("data", function(data) {
+		var files = parseInt(data.toString());
+		console.log(files);
 		for (var i=0; i<files; i++) {
 			console.log("fetching file");
 			http.get(config.url + "/get/" + i, function(res) {
