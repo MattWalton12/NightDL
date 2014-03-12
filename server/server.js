@@ -111,7 +111,7 @@ function checkTime() {
 	var d = new Date();
 	var splitTime = config.time.split(":");
 
-	if (d.getTime() - lastDl >= 3600) {
+	if (d.getTime() - lastDl >= 61000) {
 		if (d.getHours() == splitTime[0] && d.getMinutes() == splitTime[1]) {
 			lastDl = d.getTime();
 			downloadFiles();
